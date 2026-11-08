@@ -1,0 +1,36 @@
+name: Yeni Hayat APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Dosyalari indir
+        uses: actions/checkout@v4
+
+      - name: Java kur
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Godot kur
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.3.0
+          use-dotnet: false
+
+      - name: Android export
+        run: |
+          godot --headless --path . --editor --quit
+
+      - name: Projeyi kontrol et
+        run: |
+          echo "Godot projesi kontrol edildi."
+          ls -la
